@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI for Designers — Практика від дизайнера</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Color system */
+      --bg-deep: #0a0a0f;
+      --bg-surface: rgba(14, 14, 22, 0.85);
+      --bg-card: rgba(22, 22, 35, 0.75);
+      --bg-card-hover: rgba(30, 30, 48, 0.85);
+      --accent: #6ee7b7;
+      --accent-dim: rgba(110, 231, 183, 0.15);
+      --accent-glow: rgba(110, 231, 183, 0.08);
+      --text-primary: #f0f0f5;
+      --text-secondary: rgba(240, 240, 245, 0.65);
+      --text-tertiary: rgba(240, 240, 245, 0.5);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(110, 231, 183, 0.25);
+
+      /* Typography scale — Major Third (1.25) */
+      --text-xs: 0.64rem;
+      --text-sm: 0.8rem;
+      --text-base: 1rem;
+      --text-lg: 1.25rem;
+      --text-xl: 1.563rem;
+      --text-2xl: 1.953rem;
+      --text-3xl: 2.441rem;
+      --text-4xl: 3.052rem;
+      --text-5xl: 3.815rem;
+
+      /* Spacing — 8pt grid */
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-7: 48px;
+      --space-8: 64px;
+      --space-9: 96px;
+      --space-10: 128px;
+
+      /* Radii */
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-primary);
+      background: var(--bg-deep);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* ─── VIDEO BACKGROUND ─── */
+    .video-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .video-bg video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.35;
+    }
+
+    .video-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background:
+        linear-gradient(180deg,
+          rgba(10, 10, 15, 0.7) 0%,
+          rgba(10, 10, 15, 0.4) 30%,
+          rgba(10, 10, 15, 0.5) 60%,
+          rgba(10, 10, 15, 0.95) 100%
+        );
+    }
+
+    /* ─── LAYOUT ─── */
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 var(--space-5);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-9) 0 var(--space-8);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: 'Space Mono', monospace;
+      font-size: var(--text-xs);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid var(--border-accent);
+      padding: var(--space-2) var(--space-4);
+      border-radius: 100px;
+      width: fit-content;
+      margin-bottom: var(--space-6);
+      animation: fadeInUp 0.6s ease-out both;
+    }
+
+    .badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .hero h1 {
+      font-size: var(--text-4xl);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: var(--space-5);
+      animation: fadeInUp 0.6s ease-out 0.1s both;
+    }
+
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--accent), #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: var(--text-lg);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 580px;
+      margin-bottom: var(--space-7);
+      animation: fadeInUp 0.6s ease-out 0.2s both;
+    }
+
+    .hero-cta {
+      animation: fadeInUp 0.6s ease-out 0.3s both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: 'DM Sans', sans-serif;
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: var(--bg-deep);
+      background: var(--accent);
+      border: none;
+      padding: var(--space-4) var(--space-6);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+      text-decoration: none;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(110, 231, 183, 0.25);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* ─── STATS ROW ─── */
+    .stats {
+      display: flex;
+      gap: var(--space-7);
+      padding: var(--space-7) 0;
+      border-top: 1px solid var(--border);
+      animation: fadeInUp 0.6s ease-out 0.4s both;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .stat-value {
+      font-family: 'Space Mono', monospace;
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    .stat-label {
+      font-size: var(--text-sm);
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ─── SECTIONS ─── */
+    section {
+      padding: var(--space-9) 0;
+    }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: var(--space-4);
+    }
+
+    .section-title {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: var(--space-5);
+    }
+
+    .section-desc {
+      font-size: var(--text-base);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: var(--space-7);
+      max-width: 580px;
+    }
+
+    /* ─── WORKFLOW CARDS ─── */
+    .workflows-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .workflow-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-5);
+      transition: background 0.25s ease-out, border-color 0.25s ease-out, transform 0.25s ease-out;
+      backdrop-filter: blur(12px);
+    }
+
+    .workflow-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+
+    .workflow-number {
+      font-family: 'Space Mono', monospace;
+      font-size: var(--text-xs);
+      color: var(--accent);
+      margin-bottom: var(--space-3);
+      letter-spacing: 0.04em;
+    }
+
+    .workflow-card h3 {
+      font-size: var(--text-base);
+      font-weight: 600;
+      line-height: 1.35;
+      margin-bottom: var(--space-2);
+    }
+
+    .workflow-card p {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ─── WHAT YOU'LL LEARN ─── */
+    .learn-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .learn-item {
+      display: flex;
+      gap: var(--space-4);
+      align-items: flex-start;
+      padding: var(--space-4) var(--space-5);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      backdrop-filter: blur(12px);
+    }
+
+    .learn-icon {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-dim);
+      border-radius: var(--radius-sm);
+      color: var(--accent);
+      font-size: var(--text-lg);
+    }
+
+    .learn-text {
+      font-size: var(--text-base);
+      line-height: 1.5;
+    }
+
+    .learn-text strong {
+      color: var(--text-primary);
+    }
+
+    .learn-text span {
+      color: var(--text-secondary);
+    }
+
+    /* ─── TOOLS STRIP ─── */
+    .tools-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-top: var(--space-6);
+    }
+
+    .tool-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: var(--space-2) var(--space-3);
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    /* ─── PRICING ─── */
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg);
+      padding: var(--space-7);
+      text-align: center;
+      backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pricing-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-2);
+    }
+
+    .price-main {
+      font-family: 'Space Mono', monospace;
+      font-size: var(--text-4xl);
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+    }
+
+    .price-after {
+      font-size: var(--text-base);
+      color: var(--text-tertiary);
+      text-decoration: line-through;
+    }
+
+    .price-label {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-5);
+    }
+
+    .pricing-features {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      text-align: left;
+      margin-bottom: var(--space-6);
+    }
+
+    .pricing-feature {
+      display: flex;
+      gap: var(--space-3);
+      align-items: center;
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+
+    .pricing-feature svg {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      color: var(--accent);
+    }
+
+    /* ─── WAITLIST FORM ─── */
+    .waitlist-section {
+      padding: var(--space-9) 0 var(--space-10);
+    }
+
+    .form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-7);
+      backdrop-filter: blur(16px);
+    }
+
+    .form-group {
+      margin-bottom: var(--space-5);
+    }
+
+    .form-group label {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-1);
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: var(--text-base);
+      color: var(--text-primary);
+      background: rgba(10, 10, 15, 0.6);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: var(--space-3) var(--space-4);
+      height: 48px;
+      transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .form-group input::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+
+    .form-group select option {
+      background: var(--bg-deep);
+      color: var(--text-primary);
+    }
+
+    .form-hint {
+      font-size: var(--text-xs);
+      color: var(--text-tertiary);
+      margin-top: var(--space-1);
+    }
+
+    .form-submit {
+      width: 100%;
+      height: 48px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: var(--bg-deep);
+      background: var(--accent);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    }
+
+    .form-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(110, 231, 183, 0.3);
+    }
+
+    .form-submit:active {
+      transform: translateY(0);
+    }
+
+    .form-consent {
+      margin-bottom: var(--space-5);
+    }
+
+    .consent-label {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      cursor: pointer;
+      font-size: var(--text-sm);
+      line-height: 1.5;
+    }
+
+    .consent-label input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .checkmark {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: rgba(10, 10, 15, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease-out, border-color 0.2s ease-out;
+      margin-top: 1px;
+    }
+
+    .checkmark::after {
+      content: '';
+      width: 10px;
+      height: 6px;
+      border-left: 2px solid var(--bg-deep);
+      border-bottom: 2px solid var(--bg-deep);
+      transform: rotate(-45deg) translateY(-1px);
+      opacity: 0;
+      transition: opacity 0.15s ease-out;
+    }
+
+    .consent-label input[type="checkbox"]:checked ~ .checkmark {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .consent-label input[type="checkbox"]:checked ~ .checkmark::after {
+      opacity: 1;
+    }
+
+    .consent-label input[type="checkbox"]:focus-visible ~ .checkmark {
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .consent-text {
+      color: var(--text-secondary);
+    }
+
+    .consent-text a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-decoration-color: rgba(110, 231, 183, 0.3);
+      text-underline-offset: 2px;
+      transition: text-decoration-color 0.2s ease-out;
+    }
+
+    .consent-text a:hover {
+      text-decoration-color: var(--accent);
+    }
+
+    .form-note {
+      text-align: center;
+      font-size: var(--text-sm);
+      color: var(--text-tertiary);
+      margin-top: var(--space-4);
+    }
+
+    /* Success state */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: var(--space-7) 0;
+    }
+
+    .form-success.visible {
+      display: block;
+      animation: fadeInUp 0.4s ease-out;
+    }
+
+    .success-icon {
+      font-size: var(--text-4xl);
+      margin-bottom: var(--space-4);
+    }
+
+    .form-success h3 {
+      font-size: var(--text-xl);
+      margin-bottom: var(--space-2);
+    }
+
+    .form-success p {
+      color: var(--text-secondary);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: var(--space-6) 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    footer p {
+      font-size: var(--text-sm);
+      color: var(--text-tertiary);
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      .hero h1 {
+        font-size: var(--text-3xl);
+      }
+
+      .hero-subtitle {
+        font-size: var(--text-base);
+      }
+
+      .stats {
+        flex-direction: column;
+        gap: var(--space-5);
+      }
+
+      .workflows-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-card {
+        padding: var(--space-5);
+      }
+
+      .pricing-card {
+        padding: var(--space-5);
+      }
+
+      .price-main {
+        font-size: var(--text-3xl);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Video Background -->
+  <div class="video-bg">
+    <video id="bgVideo" autoplay muted loop playsinline preload="auto">
+      <source src="./5732088-hd_1920_1080_30fps.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="video-overlay"></div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="badge">Waitlist відкритий</div>
+      <h1>AI змінив мою<br>роботу дизайнера.<br><span class="highlight">Хочу навчити вас.</span></h1>
+      <p class="hero-subtitle">
+        Більше року я щодня використовую AI — створюю прототипи за 15 хвилин, верстаю без Figma прямо в коді, керую дизайн-системою через Claude. 8 уроків про реальні процеси, не теорію.
+      </p>
+      <div class="hero-cta">
+        <a href="#waitlist" class="btn-primary">
+          Забронювати місце
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="stats">
+        <div class="stat-item">
+          <span class="stat-value">8</span>
+          <span class="stat-label">Відео-уроків</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">6</span>
+          <span class="stat-label">Реальних workflows</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">10+</span>
+          <span class="stat-label">AI-інструментів</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workflows -->
+  <section class="reveal">
+    <div class="container">
+      <div class="section-label">// Workflows</div>
+      <h2 class="section-title">6 процесів, які я використовую щодня</h2>
+      <p class="section-desc">
+        Не абстрактні лекції про AI. Кожен урок — конкретний робочий процес від задачі до результату. Ви побачите реальні проекти та зможете повторити.
+      </p>
+
+      <div class="workflows-grid">
+        <div class="workflow-card">
+          <div class="workflow-number">01</div>
+          <h3>Прототип за 15 хвилин</h3>
+          <p>Створення робочого прототипу в Claude Cowork для швидкого погодження зі стейкхолдерами. З анімаціями та реальними даними.</p>
+        </div>
+        <div class="workflow-card">
+          <div class="workflow-number">02</div>
+          <h3>Дизайн прямо в коді</h3>
+          <p>Vibe-coding через Cursor і Claude Code — верстка без Figma, від промпту до працюючої сторінки. Без навичок програмування.</p>
+        </div>
+        <div class="workflow-card">
+          <div class="workflow-number">03</div>
+          <h3>Новий розділ з нуля</h3>
+          <p>Як додати нову фічу в існуючий додаток — з аналізом поточного коду, стилів і компонентів. AI зробить все послідовно.</p>
+        </div>
+        <div class="workflow-card">
+          <div class="workflow-number">04</div>
+          <h3>Стилізація коду розробників</h3>
+          <p>Отримали код від devs і він виглядає «не так»? Через Cursor ви стилізуєте його під дизайн за хвилини, не години.</p>
+        </div>
+        <div class="workflow-card">
+          <div class="workflow-number">05</div>
+          <h3>Figma + AI правки</h3>
+          <p>Claude керує фреймами за вашим промптом через Figma MCP. Масові зміни стилів, вирівнювання, оновлення компонентів — без рутини.</p>
+        </div>
+        <div class="workflow-card">
+          <div class="workflow-number">06</div>
+          <h3>Дизайн-система з AI</h3>
+          <p>Створення та зміна компонентів, токенів, змінних у Figma в десятки разів швидше. Claude будує вашу дизайн-систему за промптами.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What You'll Learn -->
+  <section class="reveal">
+    <div class="container">
+      <div class="section-label">// Результат</div>
+      <h2 class="section-title">Що ви зможете після практики</h2>
+
+      <div class="learn-list">
+        <div class="learn-item">
+          <div class="learn-icon">⚡</div>
+          <div class="learn-text">
+            <strong>Робочі прототипи за 15 хвилин</strong><br>
+            <span>Замість днів — інтерактивні прототипи з анімаціями для погодження з клієнтами</span>
+          </div>
+        </div>
+        <div class="learn-item">
+          <div class="learn-icon">🧩</div>
+          <div class="learn-text">
+            <strong>Дизайн-система через AI</strong><br>
+            <span>Створення токенів, змінних і компонентів у Figma в десятки разів швидше за допомогою Claude</span>
+          </div>
+        </div>
+        <div class="learn-item">
+          <div class="learn-icon">💻</div>
+          <div class="learn-text">
+            <strong>Верстка без навичок програмування</strong><br>
+            <span>Дизайн прямо в коді через vibe-coding — від ідеї до працюючого продукту</span>
+          </div>
+        </div>
+        <div class="learn-item">
+          <div class="learn-icon">🎯</div>
+          <div class="learn-text">
+            <strong>Контроль над кодом розробників</strong><br>
+            <span>Стилізація та покращення існуючого коду, щоб він відповідав вашому дизайну</span>
+          </div>
+        </div>
+        <div class="learn-item">
+          <div class="learn-icon">🗺️</div>
+          <div class="learn-text">
+            <strong>Карта AI-інструментів</strong><br>
+            <span>Розумієте, який інструмент для чого: Claude, ChatGPT, Cursor, v0, Bolt, Figma AI та інші</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tools-strip">
+        <span class="tool-tag">Claude</span>
+        <span class="tool-tag">Cursor</span>
+        <span class="tool-tag">GPT</span>
+        <span class="tool-tag">Figma AI</span>
+        <span class="tool-tag">Gemini</span>
+        <span class="tool-tag">Perplexity</span>
+        <span class="tool-tag">Grok</span>
+        <span class="tool-tag">Боти</span>
+        <span class="tool-tag">Vercel</span>
+        <span class="tool-tag">Github</span>
+        <span class="tool-tag">Mixboard</span>
+        <span class="tool-tag">Stitch</span>
+        <span class="tool-tag">NotebookLM</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="reveal">
+    <div class="container">
+      <div class="section-label">// Ціна</div>
+      <h2 class="section-title">Доступна ціна, реальна цінність</h2>
+
+      <div class="pricing-card">
+        <div class="price-row">
+          <span class="price-main">$39</span>
+          <span class="price-after">$49</span>
+        </div>
+        <p class="price-label">Early bird — для перших 50 учасників</p>
+
+        <div class="pricing-features">
+          <div class="pricing-feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>8 відео-уроків із живими демо</span>
+          </div>
+          <div class="pricing-feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>6 реальних workflows, які можна повторити</span>
+          </div>
+          <div class="pricing-feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Промпти та шаблони для кожного процесу</span>
+          </div>
+          <div class="pricing-feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Матеріали українською мовою</span>
+          </div>
+          <div class="pricing-feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Доступ до спільноти на Patreon</span>
+          </div>
+        </div>
+
+        <a href="#waitlist" class="btn-primary" style="width: 100%; justify-content: center;">
+          Хочу в waitlist
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Waitlist Form -->
+  <section class="waitlist-section reveal" id="waitlist">
+    <div class="container">
+      <div class="section-label">// Waitlist</div>
+      <h2 class="section-title">Дізнайтесь про запуск першими</h2>
+      <p class="section-desc">
+        Залиште email — ніяких зобов'язань. Я напишу вам, як тільки практика буде готова. Перші 50 отримають ціну $39 замість $49.
+      </p>
+
+      <div class="form-card">
+        <form id="waitlistForm" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+          <input type="hidden" name="subject" value="AI for Designers — новий waitlist запис">
+          <input type="hidden" name="from_name" value="AI for Designers Waitlist">
+          <input type="hidden" name="redirect" value="">
+
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" placeholder="your@email.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="name">Ім'я</label>
+            <input type="text" id="name" name="name" placeholder="Як вас звати?">
+          </div>
+
+          <div class="form-group">
+            <label for="interest">Яка тема цікавить найбільше?</label>
+            <select id="interest" name="interest">
+              <option value="">Оберіть тему...</option>
+              <option value="prototyping">Прототипування з AI</option>
+              <option value="vibe-coding">Дизайн у коді без Figma (vibe-coding)</option>
+              <option value="figma-ai">Figma + AI</option>
+              <option value="styling">Робота з існуючим кодом</option>
+              <option value="design-system">Дизайн-система з AI</option>
+              <option value="all">Все перераховане</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="level">Ваш рівень досвіду з AI</label>
+            <select id="level" name="level">
+              <option value="">Оберіть рівень...</option>
+              <option value="none">Ще не пробував(ла)</option>
+              <option value="basic">Пробував(ла) базово (ChatGPT, Midjourney)</option>
+              <option value="active">Активно використовую</option>
+            </select>
+          </div>
+
+          <div class="form-consent">
+            <label class="consent-label">
+              <input type="checkbox" name="consent" id="consent" checked required>
+              <span class="checkmark"></span>
+              <span class="consent-text">Я погоджуюсь з <a href="privacy.html" target="_blank">Політикою конфіденційності</a> та дозволяю обробку моїх персональних даних</span>
+            </label>
+          </div>
+
+          <button type="submit" class="form-submit">Залишити email →</button>
+          <p class="form-note">Це не зобов'язує до покупки — просто щоб ви дізнались першими.</p>
+        </form>
+
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon">🎉</div>
+          <h3>Дякую!</h3>
+          <p>Ви у списку. Я напишу вам, як тільки практика буде готова.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>AI for Designers © 2026 — Практика від продуктового дизайнера</p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          entry.target.style.transitionDelay = `${i * 80}ms`;
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Force video play (some browsers block autoplay even when muted)
+    const video = document.getElementById('bgVideo');
+    video.play().catch(() => {
+      document.addEventListener('click', () => video.play(), { once: true });
+    });
+
+    // Form handler — sends to Web3Forms, shows success
+    document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('.form-submit');
+      btn.textContent = 'Надсилаю...';
+      btn.disabled = true;
+
+      try {
+        const formData = new FormData(this);
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          this.style.display = 'none';
+          document.getElementById('formSuccess').classList.add('visible');
+        } else {
+          btn.textContent = 'Спробувати ще раз →';
+          btn.disabled = false;
+        }
+      } catch (err) {
+        btn.textContent = 'Спробувати ще раз →';
+        btn.disabled = false;
+      }
+    });
+  </script>
+
+</body>
+</html>
