@@ -1044,8 +1044,7 @@
         const data = await res.json();
 
         if (data.success) {
-          this.style.display = 'none';
-          document.getElementById('formSuccess').classList.add('visible');
+          window.location.href = 'thank-you.html';
         } else {
           btn.textContent = 'Спробувати ще раз →';
           btn.disabled = false;
