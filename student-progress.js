@@ -74,7 +74,7 @@
 
   // Step 1: Collect all students from /students pages
   function fetchStudentList() {
-    var url = '/students' + (page > 1 ? '?page=' + page : '');
+    var url = '/students' + (page > 1 ? '?page=' + ((page - 1) * 10) : '');
     fetch(url).then(function(r) { return r.text(); }).then(function(html) {
       var doc = new DOMParser().parseFromString(html, 'text/html');
       var rows = doc.querySelectorAll('.js-student-row');
