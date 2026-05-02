@@ -395,74 +395,6 @@
       white-space: nowrap;
     }
 
-    /* ─── REVIEWS (BENTO) ─── */
-    .reviews-bento {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: var(--space-3);
-    }
-
-    .review-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: var(--space-5);
-      backdrop-filter: blur(12px);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: var(--space-3);
-      transition: background 0.25s ease-out, border-color 0.25s ease-out, transform 0.25s ease-out;
-    }
-
-    .review-card:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--border-accent);
-      transform: translateY(-2px);
-    }
-
-    .review-card .review-quote {
-      font-size: var(--text-sm);
-      color: var(--text-secondary);
-      line-height: 1.65;
-    }
-
-    .review-card.is-hero { grid-column: span 4; grid-row: span 2; }
-    .review-card.is-hero .review-quote {
-      font-size: var(--text-base);
-      color: var(--text-primary);
-      line-height: 1.6;
-    }
-
-    .review-card.is-narrow { grid-column: span 2; }
-    .review-card.is-half  { grid-column: span 3; }
-    .review-card.is-wide-4 { grid-column: span 4; }
-    .review-card.is-wide-2 { grid-column: span 2; }
-    .review-card.is-full  { grid-column: span 6; }
-
-    .review-meta {
-      font-family: 'Space Mono', monospace;
-      font-size: var(--text-xs);
-      color: var(--text-tertiary);
-      letter-spacing: 0.04em;
-    }
-
-    .review-link {
-      display: inline-block;
-      font-family: 'Space Mono', monospace;
-      font-size: var(--text-xs);
-      color: var(--accent);
-      text-decoration: underline;
-      text-decoration-color: rgba(110, 231, 183, 0.3);
-      text-underline-offset: 3px;
-      word-break: break-all;
-      transition: text-decoration-color 0.2s ease-out;
-    }
-
-    .review-link:hover {
-      text-decoration-color: var(--accent);
-    }
-
     /* ─── PRICING ─── */
     .pricing-card {
       background: var(--bg-card);
@@ -794,20 +726,6 @@
         grid-template-columns: 1fr;
       }
 
-      .reviews-bento {
-        grid-template-columns: 1fr;
-      }
-
-      .review-card.is-hero,
-      .review-card.is-narrow,
-      .review-card.is-half,
-      .review-card.is-wide-4,
-      .review-card.is-wide-2,
-      .review-card.is-full {
-        grid-column: span 1;
-        grid-row: auto;
-      }
-
       .form-card {
         padding: var(--space-5);
       }
@@ -966,64 +884,6 @@
         <span class="tool-tag">Mixboard</span>
         <span class="tool-tag">Stitch</span>
         <span class="tool-tag">NotebookLM</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Reviews -->
-  <section class="reveal">
-    <div class="container">
-      <div class="section-label">// Перші відгуки</div>
-      <h2 class="section-title">Що кажуть ті, хто вже спробував</h2>
-      <p class="section-desc">
-        Реальні слова від дизайнерів, які проходять матеріали практикуму прямо зараз.
-      </p>
-
-      <div class="reviews-bento">
-        <!-- 1. Hero — Claude/ChatGPT bundle -->
-        <div class="review-card is-hero">
-          <p class="review-quote">
-            Привіт! Дякую за курс — мені дуже зайшов 👍<br><br>
-            За тиждень реально багато нового для себе взяв. Почав активно юзати Claude, до цього більше сидів на ChatGPT. Зараз взагалі працюю в зв'язці: ChatGPT для обговорення і промптів, а Claude — для генерації та реалізації, і це прям кайф.
-          </p>
-          <span class="review-meta">— Учасник практикуму</span>
-        </div>
-
-        <!-- 2. Case — Mark Bondarenko -->
-        <div class="review-card is-narrow">
-          <p class="review-quote">
-            Привіт, трохи для контексту: я джун, щойно закінчив курси. Сьогодні робив перенесення дизайну в код. Ось що в мене вийшло:
-          </p>
-          <a href="https://markuxuiportfolio.netlify.app/" target="_blank" rel="noopener" class="review-link">markuxuiportfolio.netlify.app</a>
-        </div>
-
-        <!-- 3. Two formats -->
-        <div class="review-card is-narrow">
-          <p class="review-quote">
-            Я проходжу одразу два курси, і це взагалі різні формати. Діма дуже ах**нно пояснює як все підключити і як налаштувати простори, систему якось зробити.
-          </p>
-        </div>
-
-        <!-- 4. Presence + persona (combined 3+4) -->
-        <div class="review-card is-wide-4">
-          <p class="review-quote">
-            Дуже класно, коли є оце відчуття присутності навіть у записах. Якась така персональна фішка — ще ніби ближче знайомить студента з тобою, бо ти показуєш якийсь власний вибір поза темою.
-          </p>
-        </div>
-
-        <!-- 5. Structure / edge cases -->
-        <div class="review-card is-wide-2">
-          <p class="review-quote">
-            Дякую, що все по порядку, структурно і з едж-кейсами. Є відчуття, ніби я не сам на сам з цим всім.
-          </p>
-        </div>
-
-        <!-- 6. "Курс топ" -->
-        <div class="review-card is-full">
-          <p class="review-quote">
-            Курс топ. Все дуже чітко й зрозуміло. Без води — найголовніше. Чекаю на інші курси. Так тримати 👏
-          </p>
-        </div>
       </div>
     </div>
   </section>
